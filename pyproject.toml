@@ -16,8 +16,20 @@ Homepage = "https://github.com/abdelhai/oakdb"
 Issues = "https://github.com/abdelhai/oakdb/issues"
 
 [project.optional-dependencies]
-vector = ["sqlite-vec", "llama-cpp-python", "huggingface-hub"]
-dev = ["pytest", "black"]
+vector = [
+    "sqlite-vec>=0.1.6",
+    "llama-cpp-python>=0.3.7",
+    "huggingface-hub>=0.28.1",
+]
+dev = ["pytest", "black", "hatchling"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build]
+sources = ["python"]
+exclude = ["*.md", "**/*.md", "python/tests"]
 
 
 [tool.pyright]

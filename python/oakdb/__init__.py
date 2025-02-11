@@ -1,3 +1,6 @@
+"""OakDB: A nifty embedded database."""
+__version__ = "0.0.1"
+
 from typing import Union, Dict
 from .backends import SQLiteBackend
 from .base import Base

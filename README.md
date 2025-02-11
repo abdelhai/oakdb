@@ -13,7 +13,7 @@ pip install oakdb
 
 ### With vector search:
 ```sh
-pip install oakdb[vector]
+pip install "oakdb[vector]"
 ```
 
 > Note: Vector search is compatible with Python installations that support SQLite extensions. The recommended installation method is through [Homebrew](https://brew.sh): `brew install python`
