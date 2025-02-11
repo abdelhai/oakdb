@@ -1,0 +1,26 @@
+[project]
+name = "oakdb"
+version = "0.0.1"
+authors = [{ name = "Mustafa Abdelhai", email = "hi@mustafa.li" }]
+description = "A nifty embedded db"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+license = { file = "LICENSE" }
+
+[project.urls]
+Homepage = "https://github.com/abdelhai/oakdb"
+Issues = "https://github.com/abdelhai/oakdb/issues"
+
+[project.optional-dependencies]
+vector = ["sqlite-vec", "llama-cpp-python", "huggingface-hub"]
+dev = ["pytest", "black"]
+
+
+[tool.pyright]
+# Ignore specific unbound or type-related warnings
+reportUnboundVariable = false
+reportOptionalMemberAccess = false
