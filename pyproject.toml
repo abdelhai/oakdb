@@ -21,7 +21,7 @@ vector = [
     "llama-cpp-python>=0.3.7",
     "huggingface-hub>=0.28.1",
 ]
-dev = ["pytest", "black", "hatchling"]
+dev = ["pytest", "black", "hatchling", "twine"]
 
 [build-system]
 requires = ["hatchling"]

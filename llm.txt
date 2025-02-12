@@ -1,0 +1,119 @@
+Pass the following text to your LLM to help you use OakDB.
+
+OakDB is a local-first database with full-text and vector similarity search capabilities, built on SQLite. Here's how to use it:
+
+Basic Usage:
+1. Initialize:
+   from oakdb import Oak
+   oak = Oak()  # Or specify a file/path like "mydb.db" or "./mydb.db"
+   db = oak.Base("mydb")
+
+2. Core Operations:
+   - Add data: db.add({"text": "content"})
+   - Add with custom key: db.add({"text": "content"}, key="custom123")
+   - Add multiple: db.adds([{"text": "one"}, {"text": "two"}])
+   - Get by key: db.get("key123")
+   - Delete: db.delete("key123")
+   - Delete multiple: db.deletes(["key1", "key2"])
+   - Query: db.fetch({"field": "value"})
+
+3. Search Features:
+   - Enable text search: db.enable_search()
+   - Search: db.search("query", limit=10, page=1)
+   - Enable vector search: db.enable_vector()
+   - Find similar: db.similar("query", limit=3, distance="cosine")
+   - Disable features: db.disable_search(), db.disable_vector()
+
+4. Embedding Providers:
+   Default:
+   - Uses llama.cpp locally (no API keys needed)
+   - Auto-downloads required model
+
+   Custom Providers:
+   ```python
+   from langchain_community.embeddings import CloudflareWorkersAIEmbeddings
+   oak = Oak()
+   oak.backend.set_embedder(CloudflareWorkersAIEmbeddings(api_token="...", ...))
+   ```
+
+   Supported Providers (via langchain):
+   - Cloudflare
+   - Cohere
+   - HuggingFace
+   - Vertex AI
+   - Custom (implement embed_documents and embed_query methods)
+
+   Note: Don't mix providers within same Oak instance
+
+5. Query Filters:
+   - Exact match: {"field": value}
+   - Operators:
+     * __eq, __ne, __lt, __gt, __lte, __gte
+     * __starts, __ends, __contains, __!contains
+     * __range, __in, __!in
+   - Multiple conditions: {"field1": val1, "field2": val2}
+   - OR conditions: [{"field1": val1}, {"field2": val2}]
+   - Nested JSON: {"user.profile.age__gte": 21}
+   - Direct columns: {"_created__gte": "2023-01-01"}
+
+6. Sorting & Pagination:
+   - key__asc/desc
+   - data__asc/desc
+   - created__asc/desc
+   - updated__asc/desc
+   - rank__asc/desc (search only)
+   - distance__asc/desc (vector only)
+   - Paginate: limit=10, page=1
+
+7. Response Objects:
+   - AddResponse: key, data, kv, error
+   - GetResponse: key, data, kv, error
+   - ItemsResponse: items, page, pages, total, limit, error
+   - DeleteResponse: key, deleted, error
+
+8. Database Management:
+   - Drop database: db.drop("mydb")
+   - Drop main table only: db.drop("mydb", main_only=True)
+
+9. FAQ:
+
+   Q: How do I backup my database?
+   A: Simply copy the .db file. It's a standard SQLite database.
+
+   Q: Can I use OakDB with async/FastAPI?
+   A: Currently synchronous only. Use in background tasks for async apps.
+
+   Q: How large can the database get?
+   A: Limited by available disk space. SQLite can handle up to 140TB.
+
+   Q: Can I migrate from one embedding provider to another?
+   A: Requires re-enabling vector search and re-indexing data.
+
+   Q: What happens if vector search fails to enable?
+   A: Check Python installation (brew install python recommended on MacOS) and dependencies.
+
+   Q: How do I handle text in different languages?
+   A: Full-text and vector search work with any language. No special setup needed.
+
+
+10. Best Practices:
+- Enable search features before adding data for immediate indexing
+- Use custom keys when you need stable references
+- Keep vector queries focused for better similarity results
+- Check response errors before using returned data
+- Use appropriate distance metrics for your use case (cosine for text)
+- Backup database file regularly if data is critical
+
+11. Installation:
+- Basic: pip install oakdb
+- With vector search: pip install "oakdb[vector]"
+- For custom embeddings: pip install langchain-community
+
+12. Requirements:
+- Python with SQLite extension support (recommended: brew install python on MacOS)
+- For vector search: sqlite-vec and llama-cpp-python
+- For custom embeddings: relevant provider packages
+
+13. Links:
+GitHub Repository: https://github.com/abdelhai/oakdb
+PyPI: https://pypi.org/project/oakdb/
