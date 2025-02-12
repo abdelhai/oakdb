@@ -339,7 +339,7 @@ def build_search(
     )
 
 
-def build_vsearch(
+def build_similar(
     base_name: str,
     query: bytes,
     *,

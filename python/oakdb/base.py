@@ -527,7 +527,7 @@ class Base:
         except Exception as e:
             return ItemsResponse(error=str(e))
 
-    def vsearch(
+    def similar(
         self,
         query: str,
         *,

@@ -32,6 +32,6 @@ def db():
     db.drop("lembeddb")
 
 
-def test_simple_vsearch(db):
-    assert db.vsearch("ai", filters={"score__gt": 20}, distance="L1")
-    assert db.vsearch("ai", filters={"score__lt": 20}).total == 0
+def test_simple_similar(db):
+    assert db.similar("ai", filters={"score__gt": 20}, distance="L1")
+    assert db.similar("ai", filters={"score__lt": 20}).total == 0

@@ -17,7 +17,7 @@ import random
 from .queries import (
     build_fetch,
     build_search,
-    build_vsearch,
+    build_similar,
     OrderFetch,
     OrderSearch,
     OrderVector,
@@ -293,7 +293,7 @@ class SQLiteBackend:
         order: OrderVector,
         distance_f: str,
     ) -> List[Tuple]:
-        sql, params = build_vsearch(
+        sql, params = build_similar(
             base_name,
             query=self.embed_query_function()(query),
             conditions=filters,

@@ -4,7 +4,7 @@ from oakdb.queries import (
     build_where_clause,
     build_fetch,
     build_search,
-    build_vsearch,
+    build_similar,
     Condition,
 )
 
@@ -100,9 +100,9 @@ def test_build_search():
     assert "MATCH ?" in sql
     assert len(params) == 4  # query + condition + limit + offset
 
-def test_build_vsearch():
+def test_build_similar():
     """Test building vector search queries"""
-    sql, params = build_vsearch(
+    sql, params = build_similar(
         "test_table",
         query=b"vector",
         conditions={"category": "books"},
@@ -129,7 +129,7 @@ def test_order_literals():
     # Valid orders should work
     build_fetch("table", order="key__asc")
     build_search("table", query="test", order="rank__desc")
-    build_vsearch("table", query=b"test", order="distance__asc", distance_f="l2")
+    build_similar("table", query=b"test", order="distance__asc", distance_f="l2")
 
     # Invalid orders should raise AssertionError
     with pytest.raises(AssertionError):
@@ -139,7 +139,7 @@ def test_order_literals():
         build_search("table", query="test", order="invalid__order")
 
     with pytest.raises(AssertionError):
-        build_vsearch("table", query=b"test", order="invalid__order", distance_f="l2")
+        build_similar("table", query=b"test", order="invalid__order", distance_f="l2")
 
 def test_complex_queries():
     """Test complex query combinations"""
