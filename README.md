@@ -77,12 +77,15 @@ ideas.similar("flying vehicles")
 
 <details>
   <summary>Using alternative embedding providers</summary>
+
 1. Install the required package:
+
 ```sh
 pip install langchain-community
 ```
 
 2. Configure Oak with your preferred embedding provider:
+
 ```py
 from oakdb import Oak
 from langchain_community.embeddings import FakeEmbeddings # import your provider
